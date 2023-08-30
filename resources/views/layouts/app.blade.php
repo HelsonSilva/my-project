@@ -10,7 +10,7 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-300">
 
     <div class="container mx-auto px-4 py-8">
         @yield('content')
