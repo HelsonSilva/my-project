@@ -18,6 +18,9 @@
     <thead>
         <tr>
             <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-black">
+                Foto
+            </th>
+            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-black">
                 Nome
             </th>
             <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-black">
@@ -29,11 +32,21 @@
             <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-black">
                 Detalhes
             </th>
+            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-black">
+                Comentários
+            </th>
         </tr>
     </thead>
     <tbody>
     @foreach ($users as $user)
         <tr>
+            <td class="px-5 py-5 border-b border-gray-200 bg-gray-50 text-left text-sky-500">
+                @if ($user->image)
+                    <img src="{{ url("storage/{$user->image}") }}" alt="{{$user->name }}" class="object-cover w-20">
+                @else
+                    <img src="{{ url("images/favicon.ico") }}" alt="{{$user->name }}" class="object-cover w-20">
+                @endif
+            </td>
             <td class="px-5 py-5 border-b border-gray-200 bg-gray-50 text-left text-sky-500">{{$user->name }}</td>
             <td class="px-5 py-5 border-b border-gray-200 bg-gray-50 text-left text-sky-500">{{$user->email }}</td>
             <td class="px-5 py-5 border-b border-gray-200 bg-gray-50 text-left text-sky-500">
@@ -41,8 +54,19 @@
             <td class="px-5 py-5 border-b border-gray-200 bg-gray-50 text-left text-sky-500">
                 <a href="{{ route('users.show', $user->id) }}" class="bg-orange-500 rounded h-8 pl-2 text-white px-4 py-1 pl-2">Detalhes</a>
             </td>
+            <td class="px-5 py-5 border-b border-gray-200 bg-gray-50 text-left text-sky-500">
+                <a href="{{ route('comments.index', $user->id) }}" class="bg-blue-500 rounded h-8 pl-2 text-white px-4 py-1 pl-2">Anotações ({{ $user->comments->count() }})</a>
+            </td>
         </tr>
     @endforeach
     </tbody>
 </table>
+
+<div class="py-4">
+    {{ $users->appends([
+        'search' => request()->get('search', '')
+    ])
+    ->links() }}
+</div>
+
 @endsection
